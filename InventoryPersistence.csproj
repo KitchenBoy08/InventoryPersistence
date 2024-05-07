@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0DEB755F-D57A-4285-9D70-C592E340CDB4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>InventoryPersistence</RootNamespace>
+    <AssemblyName>InventoryPersistence</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <LangVersion>Latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Bonemenu\BoneMenuPreferences.cs" />
+    <Compile Include="Data\JsonSaving.cs" />
+    <Compile Include="Hooking.cs" />
+    <Compile Include="Patches\SceneStreamerPatches.cs" />
+    <Compile Include="Data\PlayerInventory.cs" />
+    <Compile Include="Properties\BuildInfo.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>References\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>References\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BoneLib">
+      <HintPath>References\BoneLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>References\Il2Cppmscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="LabFusion">
+      <HintPath>References\LabFusion.dll</HintPath>
+    </Reference>
+    <Reference Include="MelonLoader">
+      <HintPath>References\MelonLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>References\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SLZ.Algorithms">
+      <HintPath>References\SLZ.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="SLZ.Marrow">
+      <HintPath>References\SLZ.Marrow.dll</HintPath>
+    </Reference>
+    <Reference Include="SLZ.Marrow.SDK">
+      <HintPath>References\SLZ.Marrow.SDK.dll</HintPath>
+    </Reference>
+    <Reference Include="SLZ.Serialize">
+      <HintPath>References\SLZ.Serialize.dll</HintPath>
+    </Reference>
+    <Reference Include="Tomlet">
+      <HintPath>References\Tomlet.dll</HintPath>
+    </Reference>
+    <Reference Include="UnhollowerBaseLib">
+      <HintPath>References\UnhollowerBaseLib.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>References\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
