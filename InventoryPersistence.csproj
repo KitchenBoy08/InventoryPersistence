@@ -59,8 +59,9 @@
     <Reference Include="Il2Cppmscorlib">
       <HintPath>References\Il2Cppmscorlib.dll</HintPath>
     </Reference>
-    <Reference Include="LabFusion">
-      <HintPath>References\LabFusion.dll</HintPath>
+    <Reference Include="LabFusion, Version=1.6.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Downloads\LabFusion.dll</HintPath>
     </Reference>
     <Reference Include="MelonLoader">
       <HintPath>References\MelonLoader.dll</HintPath>

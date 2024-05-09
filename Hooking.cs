@@ -18,6 +18,12 @@ using SLZ.Interaction;
 using MelonLoader;
 using BoneLib.Notifications;
 using InventoryPersistence.Bonemenu;
+using System.Reflection;
+using LabFusion.Network;
+using LabFusion.Utilities;
+using LabFusion.Data;
+using LabFusion.Representation;
+using Steamworks.Ugc;
 
 namespace InventoryPersistence
 {
@@ -28,7 +34,7 @@ namespace InventoryPersistence
             BoneLib.Hooking.OnLevelInitialized += OnLevelInitializedHook;
         }
 
-        internal static void OnLevelInitializedHook(LevelInfo levelInfo)
+        private static void OnLevelInitializedHook(LevelInfo levelInfo)
         {
             if (BoneMenuPreferences.LevelBlacklist.Value.Contains(levelInfo.barcode))
             {
@@ -53,44 +59,54 @@ namespace InventoryPersistence
             Player.rigManager.AmmoInventory.AddCartridge(Player.rigManager.AmmoInventory.mediumAmmoGroup, inventory.MediumAmmoCount);
             Player.rigManager.AmmoInventory.AddCartridge(Player.rigManager.AmmoInventory.heavyAmmoGroup, inventory.HeavyAmmoCount);
 
+
+            if (Main.HasFusion && NetworkInfo.HasServer)
+            {
+                foreach (var item in inventory.InventoryBarcodes)
+                {
+                    SendFusionSpawn(item.Value);
+                }
+
+                return;
+            }
+
             foreach (var item in inventory.InventoryBarcodes)
             {
-                try
+
+                var slotContainer = Player.rigManager.inventory.bodySlots.Where(x => x.name == item.Key).First();
+
+                var reference = new SpawnableCrateReference(item.Value);
+
+                var spawnable = new Spawnable()
                 {
-                    var slotContainer = Player.rigManager.inventory.bodySlots.Where(x => x.name == item.Key).First();
+                    crateRef = reference
+                };
 
-                    var reference = new SpawnableCrateReference(item.Value);
+                AssetSpawner.Register(spawnable);
 
-                    var spawnable = new Spawnable()
-                    {
-                        crateRef = reference
-                    };
+                var head = Player.playerHead;
+                AssetSpawner.Spawn(spawnable, head.position + head.forward, default, new BoxedNullable<Vector3>(null), false, new BoxedNullable<int>(null), (Action<GameObject>)OnSpawn);
 
-                    AssetSpawner.Register(spawnable);
-
-                    var head = Player.playerHead;
-                    AssetSpawner.Spawn(spawnable, head.position + head.forward, default, new BoxedNullable<Vector3>(null), false, new BoxedNullable<int>(null), (Action<GameObject>)Action);
-
-                    void Action(GameObject go)
-                    {
-                        InteractableHost host;
-
-                        if (go.GetComponent<InteractableHost>() != null)
-                            host = go.GetComponent<InteractableHost>();
-                        else
-                            host = go.transform.GetComponentInChildren<InteractableHost>();
-
-                        if (slotContainer.inventorySlotReceiver._slottedWeapon)
-                            slotContainer.inventorySlotReceiver.DespawnContents();
-
-                        slotContainer.inventorySlotReceiver.InsertInSlot(host);
-                    }
-                }
-                catch
+                void OnSpawn(GameObject go)
                 {
+                    InteractableHost host;
 
+                    if (go.GetComponent<InteractableHost>() != null)
+                        host = go.GetComponent<InteractableHost>();
+                    else
+                        host = go.transform.GetComponentInChildren<InteractableHost>();
+
+                    if (slotContainer.inventorySlotReceiver._slottedWeapon)
+                        slotContainer.inventorySlotReceiver.DespawnContents();
+
+                    slotContainer.inventorySlotReceiver.InsertInSlot(host);
                 }
             }
+        }
+
+        private static void SendFusionSpawn(string barcode)
+        {
+            PooleeUtilities.RequestSpawn(barcode, new SerializedTransform(Player.playerHead.position + Player.playerHead.forward * 2.5f, Quaternion.identity), PlayerIdManager.LocalSmallId);
         }
     }
 }
