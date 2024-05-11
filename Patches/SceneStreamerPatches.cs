@@ -32,10 +32,6 @@ namespace InventoryPersistence.Patches
         [HarmonyPrefix]
         public static void Load(string levelBarcode, string loadLevelBarcode)
         {
-#if DEBUG
-            MelonLogger.Msg("Hello World from string Load!");
-#endif
-
             OnLoadLevel(levelBarcode);
         }
 

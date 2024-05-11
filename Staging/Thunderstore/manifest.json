@@ -1,0 +1,9 @@
+{
+    "name": "InventoryPersistence",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/KitchenBoy08/InventoryPersistence",
+    "description": "A BONELAB mod which allows the player's inventory to persist from one level to the next and save between sessions!",
+    "dependencies": [
+        "gnonme-BoneLib-2.2.1"
+    ]
+}
